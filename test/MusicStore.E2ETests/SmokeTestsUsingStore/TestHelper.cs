@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) .NET Foundation. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -17,7 +20,7 @@ namespace E2ETests.SmokeTestsUsingStore
         {
         }
 
-        public async Task SmokeTestSuite(ServerType serverType, string storeDirectory)
+        public async Task SmokeTestSuite(ServerType serverType)
         {
             var targetFramework = "netcoreapp2.0";
             var testName = $"SmokeTestsUsingStore_{serverType}";
@@ -49,7 +52,7 @@ namespace E2ETests.SmokeTestsUsingStore
                         DbUtils.CreateConnectionString(musicStoreDbName)));
 
                 deploymentParameters.EnvironmentVariables.Add(
-                    new KeyValuePair<string, string>("DOTNET_SHARED_STORE", storeDirectory));
+                    new KeyValuePair<string, string>("DOTNET_SHARED_STORE", Environment.GetEnvironmentVariable("DOTNET_SHARED_STORE")));
 
                 using (var deployer = ApplicationDeployerFactory.Create(deploymentParameters, loggerFactory))
                 {
